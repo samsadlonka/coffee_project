@@ -6,13 +6,17 @@ from PyQt5.Qt import QMainWindow, QApplication
 from PyQt5 import uic
 from PyQt5.QtWidgets import QTableWidgetItem, QWidget
 
+from main_form import Ui_MainWindow
+from addEditCoffeeForm import Ui_Form
 
-class MainWindow(QMainWindow):
+
+class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super().__init__()
 
-        uic.loadUi('main.ui', self)
-        self.con = sqlite3.connect('coffee.sqlite')
+        self.setupUi(self)
+
+        self.con = sqlite3.connect('data/coffee.sqlite')
         self.cur = self.con.cursor()
         self.fill_table()
         self.edit = None
@@ -40,15 +44,16 @@ class MainWindow(QMainWindow):
         self.edit.show()
 
 
-class EditCoffee(QWidget):
+class EditCoffee(QWidget, Ui_Form):
     def __init__(self, data, p):
         super().__init__()
 
-        self.con = sqlite3.connect('coffee.sqlite')
+        self.con = sqlite3.connect('data/coffee.sqlite')
         self.cur = self.con.cursor()
         self.p = p
 
-        uic.loadUi('addEditCoffeeForm.ui', self)
+        self.setupUi(self)
+
         self.lineEdits = [self.lineEdit, self.lineEdit_2, self.lineEdit_3,
                           self.lineEdit_4, self.lineEdit_5, self.lineEdit_6,
                           self.lineEdit_7]
